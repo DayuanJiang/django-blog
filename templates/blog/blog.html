@@ -1,32 +1,76 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load blog_tags %}
 
 {% block title_block %}
     Blog
 {% endblock %}
 
 {% block body_block %}
-    {% for post in post_list %}
-        <h1 class="display-5 text-center">
-            <a href="{% url 'detail' post.pk %}">{{ post.title }} </a>
-        </h1>
-        <div class="row">
-            <div class="col-md-8">
-                <span><a href="#">{{ post.category.name }}</a></span>
-                <span>
+    <div class="row">
+        <div id="article" class="col-md-9 p-5">
+            {% for post in post_list %}
+                <h1 class="display-5 text-center">
+                    <a href="{% url 'blog:detail' post.pk %}">{{ post.title }} </a>
+                </h1>
+                <div class="container-fluid">
+                    <span><a href="#">{{ post.category.name }}</a></span>
+                    <span>
                     <a href="#">
                         <time class="entry-date" datetime="{{ post.created_time }}">
                             {{ post.created_time }}
                         </time>
                     </a>
                 </span>
-                <span class=""><a href="#">4 评论</a></span>
-                <span class=""><a href="#">588 阅读</a></span>
+                    <span class=""><a href="#">4 评论</a></span>
+                    <span class=""><a href="#">588 阅读</a></span>
+                </div>
+            {% empty %}
+                <div class="no-post">No Post now.</div>
+            {% endfor %}
+        </div>
+        <div class="col-md-3 p-5">
+            <div>
+                <h3 class="widget-title">Resent Post</h3>
+                {% get_recent_posts as recent_post_list %}
+                <ul>
+                    {% for post in recent_post_list %}
+                        <li>
+                            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                        </li>
+                    {% empty %}
+                        No post now.
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="">
+                <h3 class="widget-title">Archive</h3>
+                {% archives as date_list %}
+                <ul>
+                    {% for date in date_list %}
+                        <li>
+                            <a href="{% url 'blog:archive' date.year date.month %}">{{ date.year }} 年 {{ date.month }}
+                                月</a>
+                        </li>
+                    {% empty %}
+                        No post now.
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="">
+                <h3 class="widget-title">分类</h3>
+                {% get_categories as category_list %}
+                <ul>
+                    {% for category in category_list %}
+                        <li>
+                            <a href="{% url 'blog:category' category.pk %}">{{ category.name }} <span
+                                    class="post-count">(13)</span></a>
+                        </li>
+                    {% empty %}
+                        No category now.
+                    {% endfor %}
+                </ul>
             </div>
         </div>
-    {% empty %}
-        <div class="no-post">暂时还没有发布的文章！</div>
-    {% endfor %}
-
-
+    </div>
 {% endblock %}

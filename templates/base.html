@@ -22,11 +22,11 @@
     <div class="navbar " id="navbarColor01">
         <ul class="navbar mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'index' %}"">Index</a>
+                <a class="nav-link" href="{% url 'blog:index' %}"">Index</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'blog' %}">Blog</a>
+                <a class="nav-link" href="{% url 'blog:blog' %}">Blog</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">About</a>
@@ -42,6 +42,7 @@
 
 {% block body_block %}
 {% endblock %}
+
 <div>
     <div class="row">
         <div id="bottom_bar" class="container-fluid p-5">

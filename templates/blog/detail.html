@@ -2,7 +2,8 @@
 {{ post.title }}
 {% block body_block %}
 
-    <article id="article" class="col-xl-8 offset-xl-2 p-5">
+    <div id="body" class="col-xl-9 p-5">
+{#    header#}
         <header class="entry-header">
             <h1 class="entry-title">{{ post.title }}</h1>
             <div class="entry-meta">
@@ -14,15 +15,53 @@
                 <span class="views-count"><a href="#">588 阅读</a></span>
             </div>
         </header>
+{#    article#}
         <div class="entry-content clearfix">
             {{ post.body|safe }}
         </div>
-    </article>
+{#comment form#}
+        <form action="{% url 'comment:post_comment' post.pk %}" method="post" class="comment-form">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="{{ form.name.id_for_label }}">Name</label>
+                    {{ form.name }}
+                    {{ form.name.errors }}
+                </div>
+                <div class="col-md-6">
+                    <label for="{{ form.email.id_for_label }}">Email</label>
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+                <div class="col-md-12 ">
+                    <label for="{{ form.text.id_for_label }}">Comment</label>
+                    {{ form.text }}
+                    {{ form.text.errors }}
+                    <button type="submit" class="comment-btn">Post</button>
+                </div>
+            </div>    <!-- row -->
+        </form>
+{#    comments #}
+        <ul class="comment-list list-unstyled">
+            {% for comment in comment_list %}
+                <li class="comment-item">
+                    <span class="nickname">{{ comment.name }}</span>
+                    <time class="submit-date">{{ comment.created_time }}</time>
+                    <div class="text">
+                        {{ comment.text }}
+                    </div>
+                </li>
+            {% empty %}
+                Waiting for you to comment.
+            {% endfor %}
+        </ul>
+    </div>
 
     <style>
-        #article {
-                background-color: #FFFFFF;
+        #body {
+            background-color: #FFFFFF;
         }
+
         pre {
             display: block;
             padding: 9.5px;
@@ -33,8 +72,6 @@
             word-break: break-all;
             word-wrap: break-word;
             background-color: #f5f5f5;
-            border: 1px solid #ccc;
-            border-radius: 4px;
         }
     </style>
 
