@@ -14,20 +14,41 @@
                     <a href="{% url 'blog:detail' post.pk %}">{{ post.title }} </a>
                 </h1>
                 <div class="container-fluid">
-                    <span><a href="#">{{ post.category.name }}</a></span>
+                    <span><a href="{% url 'blog:category' post.category.pk %}">
+                        {{ post.category.name }}</a>
+                    </span>
                     <span>
-                    <a href="#">
                         <time class="entry-date" datetime="{{ post.created_time }}">
                             {{ post.created_time }}
                         </time>
-                    </a>
-                </span>
-                    <span class=""><a href="#">4 评论</a></span>
-                    <span class=""><a href="#">588 阅读</a></span>
+                    </span>
+                    <span class="">{{ post.comment_set.count }} comment{{ post.comment_set.count|pluralize }}</span>
+                    <span class=""><a href="#">588 click</a></span>
                 </div>
             {% empty %}
                 <div class="no-post">No Post now.</div>
             {% endfor %}
+            {% if is_paginated %}
+                <div class="col-md-6 col-md-offset-4">
+                    <ul class="pagination center-block">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                            </li>
+                        {% endif %}
+                        <li class="page-item active">
+                            <a class="page-link" href="#">
+                                {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                            </a>
+                        </li>
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
         </div>
         <div class="col-md-3 p-5">
             <div>

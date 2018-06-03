@@ -10,30 +10,16 @@ from django.views.generic import ListView, DetailView
 def index(request):
     return render(request, "blog/index.html")
 
+class IndexView(ListView):
+    model = Post
+    template_name = "blog/index.html"
+    paginate_by = 10
 
 class BlogView(ListView):
     model = Post
     template_name = 'blog/blog.html'
     context_object_name = 'post_list'
-
-
-def detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    post.body = markdown.markdown(post.body,
-                                  extensions=[
-                                      'markdown.extensions.extra',
-                                      'markdown.extensions.codehilite',
-                                      'markdown.extensions.toc',
-                                  ])
-    form = CommentForm()
-    comment_list = post.comment_set.all()
-    context = {
-        "post": post,
-        "form": form,
-        "comment_list": comment_list
-    }
-
-    return render(request, "blog/detail.html", context=context)
+    paginate_by = 10
 
 class PostDetialView(DetailView):
     model = Post
