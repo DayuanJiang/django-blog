@@ -10,16 +10,56 @@ from django.views.generic import ListView, DetailView
 def index(request):
     return render(request, "blog/index.html")
 
+
 class IndexView(ListView):
     model = Post
     template_name = "blog/index.html"
     paginate_by = 10
+
 
 class BlogView(ListView):
     model = Post
     template_name = 'blog/blog.html'
     context_object_name = 'post_list'
     paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super(BlogView, self).get_context_data(**kwargs)
+
+        pagination_data = self.pagination_data(context.get("paginator"),
+                                               context.get("page_obj"),
+                                               context.get("is_paginated"))
+
+        context.update(pagination_data)
+
+        return context
+
+    def pagination_data(self, paginator, page_obj, is_paginated):
+        if not is_paginated:
+            return {}
+
+        if page_obj.number < 5:
+            end = page_obj.number
+            begin = 1
+        else:
+            end = page_obj.number
+            begin = end - 5
+        left = range(begin, end)
+
+        rest_pages = paginator.num_pages - page_obj.number
+
+        if rest_pages < 5:
+            end = paginator.num_pages + 1
+            begin = page_obj.number + 1
+        else:
+            begin = page_obj.number + 1
+            end = begin + 5
+
+        right = range(begin, end)
+
+        return {"left": left,
+                "right": right}
+
 
 class PostDetialView(DetailView):
     model = Post
@@ -46,6 +86,7 @@ class PostDetialView(DetailView):
         }
         context.update(update_data)
         return context
+
 
 class ArchiveView(BlogView):
     def get_queryset(self):
