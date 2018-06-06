@@ -29,8 +29,8 @@
                 <div class="no-post">No Post now.</div>
             {% endfor %}
 
-            <div class="col-md-6 col-md-offset-4">
-                <ul class="pagination center-block">
+            <div class="center-block">
+                <ul class="pagination">
                     {% if page_obj.has_previous %}
                         <li class="page-item">
                             <a class="page-link" href="?page=1">&laquo;</a>
@@ -40,30 +40,34 @@
                             <a class="page-link" href="?page=1">&laquo;</a>
                         </li>
                     {% endif %}
-                    {% for left_page in left %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ left_page }}">{{ left_page }}</a>
-                        </li>
-                    {% endfor %}
 
 
-                    <li class="page-item active">
-                        <a class="page-link" href="#">
-                            {{ page_obj.number }}
-                        </a>
-                    </li>
+                                        {% for left_page in left %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ left_page }}">{{ left_page }}</a>
+                                            </li>
+                                        {% endfor %}
 
-                    {% if right %}
-                        {% for right_page in right %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ right_page }}">{{ right_page }}</a>
-                            </li>
-                        {% endfor %}
-                    {% endif %}
+
+                                        <li class="page-item active">
+                                            <a class="page-link" href="#">
+                                                {{ page_obj.number }}
+                                            </a>
+                                        </li>
+
+                                        {% if right %}
+                                            {% for right_page in right %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ right_page }}">{{ right_page }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
 
                     {% if page_obj.has_next %}
                         <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }} &raquo;</a>
+                            <a class="page-link"
+                               href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}
+                                &raquo;</a>
                         </li>
                     {% else %}
                         <li class="page-item disabled">
@@ -92,10 +96,11 @@
                 <h3 class="widget-title">Archive</h3>
                 {% archives as date_list %}
                 <ul>
-                    {% for date in date_list %}
+                    {% for year, month, count in date_list %}
                         <li>
-                            <a href="{% url 'blog:archive' date.year date.month %}">{{ date.year }} 年 {{ date.month }}
-                                月</a>
+                            <a href="{% url 'blog:archive' year month %}">
+                                {{ year }} 年 {{ month }}月 ( {{ count }} )
+                            </a>
                         </li>
                     {% empty %}
                         No post now.
@@ -103,13 +108,13 @@
                 </ul>
             </div>
             <div class="">
-                <h3 class="widget-title">分类</h3>
+                <h3 class="widget-title">Category</h3>
                 {% get_categories as category_list %}
                 <ul>
                     {% for category in category_list %}
                         <li>
-                            <a href="{% url 'blog:category' category.pk %}">{{ category.name }} <span
-                                    class="post-count">(13)</span></a>
+                            <a href="{% url 'blog:category' category.pk %}">{{ category.name }}
+                                <span>({{ category.num_posts }})</span></a>
                         </li>
                     {% empty %}
                         No category now.

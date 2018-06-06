@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
 from .models import Post, Category
 from comment.forms import CommentForm
 import markdown
@@ -34,32 +35,47 @@ class BlogView(ListView):
 
         return context
 
+    # def pagination_data(self, paginator, page_obj, is_paginated):
+    #     if not is_paginated:
+    #         return {}
+    #
+    #     if page_obj.number < 5:
+    #         end = page_obj.number
+    #         begin = 1
+    #     else:
+    #         end = page_obj.number
+    #         begin = end -4
+    #     left = range(begin, end)
+    #
+    #     rest_pages = paginator.num_pages - page_obj.number
+    #
+    #     if rest_pages < 5:
+    #         end = paginator.num_pages
+    #         begin = page_obj.number + 1
+    #     else:
+    #         begin = page_obj.number + 1
+    #         end = begin + 4
+    #
+    #     right = range(begin, end)
+    #
+    #     return {"left": left,
+    #             "right": right}
+
     def pagination_data(self, paginator, page_obj, is_paginated):
         if not is_paginated:
             return {}
 
-        if page_obj.number < 5:
-            end = page_obj.number
-            begin = 1
-        else:
-            end = page_obj.number
-            begin = end - 5
-        left = range(begin, end)
-
-        rest_pages = paginator.num_pages - page_obj.number
-
-        if rest_pages < 5:
-            end = paginator.num_pages + 1
-            begin = page_obj.number + 1
-        else:
-            begin = page_obj.number + 1
-            end = begin + 5
-
-        right = range(begin, end)
-
+        left = [page for page in range(page_obj.number-4, page_obj.number)
+                     if page in paginator.page_range]
+        remain = 4 - len(left)
+        right = [page for page in range(page_obj.number+1, page_obj.number+5 + remain)
+                if page in paginator.page_range]
+        remain = 4 - len(right)
+        if remain > 0 :
+            left = [page for page in range(page_obj.number - 4 - remain, page_obj.number )
+                    if page in paginator.page_range]
         return {"left": left,
                 "right": right}
-
 
 class PostDetialView(DetailView):
     model = Post
