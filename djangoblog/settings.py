@@ -26,8 +26,7 @@ SECRET_KEY = '&9b)9$rvruxjbf*7c9rmy*lr$g2hm_s^=d+@&kn#4)k&5g^xd9'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "192.168.10.30",
-    "127.0.0.1"
+    "jiang.jp",
 ]
 
 

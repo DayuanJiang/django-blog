@@ -4,16 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <title>
+        Jiang -
         {% block title_block %}
         {% endblock %}
     </title>
 
     <script src="{% static 'blog/js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'blog/js/bootstrap.min.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'blog/css/custom.css' %}">
+{#    <link rel="stylesheet" href="{% static 'blog/css/custom.css' %}">#}
     <link rel="stylesheet" href="{% static 'blog/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'blog/css/highlights/github.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/highlights/emacs.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400" rel="stylesheet">
+<script id="dsq-count-scr" src="//jiang-jp.disqus.com/count.js" async></script>
+    {% block src_block %}
+    {% endblock %}
 </head>
 <body>
 <div class="container-fluid p-5">
@@ -21,7 +25,7 @@
 </div>
 
 
-<nav class="row  navbar navbar-expand-sm navbar-light bg-light">
+<nav class="row  navbar navbar-expand-sm navbar-light">
     <div class="offset-md-2 collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
@@ -61,13 +65,13 @@
 
 <style>
     body {
-        background-color: #f7f7f7;
-        font-family: 'Roboto Slab', serif
+        background-color: #f9f9f5;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji","Microsoft Yahei"; "Segoe UI Symbol";
     }
 
     nav {
         border-top: 1px solid rgb(48, 65, 80);
-        border-bottom: 1px solid rgb(48, 65, 80)
+        border-bottom: 1px solid rgb(48, 65, 80);
     }
 
     #img-div {
@@ -81,6 +85,12 @@
     #header_text {
         color: rgb(48, 65, 80);
         font-family: 'Roboto Slab', serif;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        padding-top: 0.5em;
+        color: rgb(48, 65, 80);
+        font-family: 'Roboto Slab',Microsoft Yahei, serif
     }
 </style>
 

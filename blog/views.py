@@ -3,6 +3,9 @@ from django.core.paginator import Paginator
 from .models import Post, Category
 from comment.forms import CommentForm
 import markdown
+from django.utils.text import slugify
+from markdown.extensions.toc import TocExtension
+
 
 from django.views.generic import ListView, DetailView
 
@@ -35,47 +38,22 @@ class BlogView(ListView):
 
         return context
 
-    # def pagination_data(self, paginator, page_obj, is_paginated):
-    #     if not is_paginated:
-    #         return {}
-    #
-    #     if page_obj.number < 5:
-    #         end = page_obj.number
-    #         begin = 1
-    #     else:
-    #         end = page_obj.number
-    #         begin = end -4
-    #     left = range(begin, end)
-    #
-    #     rest_pages = paginator.num_pages - page_obj.number
-    #
-    #     if rest_pages < 5:
-    #         end = paginator.num_pages
-    #         begin = page_obj.number + 1
-    #     else:
-    #         begin = page_obj.number + 1
-    #         end = begin + 4
-    #
-    #     right = range(begin, end)
-    #
-    #     return {"left": left,
-    #             "right": right}
-
     def pagination_data(self, paginator, page_obj, is_paginated):
         if not is_paginated:
             return {}
 
-        left = [page for page in range(page_obj.number-4, page_obj.number)
-                     if page in paginator.page_range]
-        remain = 4 - len(left)
-        right = [page for page in range(page_obj.number+1, page_obj.number+5 + remain)
+        left = [page for page in range(page_obj.number - 4, page_obj.number)
                 if page in paginator.page_range]
+        remain = 4 - len(left)
+        right = [page for page in range(page_obj.number + 1, page_obj.number + 5 + remain)
+                 if page in paginator.page_range]
         remain = 4 - len(right)
-        if remain > 0 :
-            left = [page for page in range(page_obj.number - 4 - remain, page_obj.number )
+        if remain > 0:
+            left = [page for page in range(page_obj.number - 4 - remain, page_obj.number)
                     if page in paginator.page_range]
         return {"left": left,
                 "right": right}
+
 
 class PostDetialView(DetailView):
     model = Post
@@ -84,12 +62,14 @@ class PostDetialView(DetailView):
 
     def get_object(self, queryset=None):
         post = super().get_object(queryset=None)
-        post.body = markdown.markdown(post.body,
-                                      extensions=[
-                                          'markdown.extensions.extra',
-                                          'markdown.extensions.codehilite',
-                                          'markdown.extensions.toc',
-                                      ])
+        md = markdown.Markdown(extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+            'markdown.extensions.toc',
+            TocExtension(slugify=slugify),
+        ])
+        post.body = md.convert(post.body)
+        post.toc = md.toc
         return post
 
     def get_context_data(self, **kwargs):
