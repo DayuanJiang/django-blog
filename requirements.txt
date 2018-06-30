@@ -2,3 +2,18 @@ Django==2.0.5
 Markdown==2.6.11
 Pygments==2.2.0
 pytz==2018.4
+
+server {
+    charset utf-8;
+    listen 80;
+    server_name jiang.jp;
+
+    location /static {
+        alias /home/jdy_toh/sites/jiang.jp/django-blog/Static;
+    }
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_pass http://unix:/tmp/djangoblog.socket;
+    }
+}
