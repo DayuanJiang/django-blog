@@ -5,20 +5,36 @@ from django.urls import reverse
 
 # Create your models here.
 class Category(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
+    name = models.CharField(max_length=200)
+    # slug = models.SlugField()
+    # parent = models.ForeignKey("self",
+    #                            blank=True,
+    #                            null=True,
+    #                            related_name="children")
+    #
+    # class Meta:
+    #     unique_together = ("slug", "parent",)
+    #     verbose_name_plural = "categories"
+    #
+    # def __str__(self):
+    #     full_path = [self.name]
+    #     k = self.parent
+    #
+    #     while k is not None:
+    #         full_path.append(k.name)
+    #         k = k.parent
+    #
+    #     return ' -> '.join(full_path[::-1])
 
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
+
     def __str__(self):
         return self.name
 
 
 class Post(models.Model):
-    
     title: str = models.CharField(max_length=70)
     body = models.TextField()
 
