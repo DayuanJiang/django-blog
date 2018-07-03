@@ -5,8 +5,10 @@ from . import views
 app_name = "blog"
 urlpatterns = [
     path(r'', views.IndexView.as_view(), name='index'),
-    path(r"blog/",views.BlogView.as_view(), name="blog"),
+    path(r"blog/", views.BlogView.as_view(), name="blog"),
     path(r"blog/<int:pk>/", views.PostDetialView.as_view(), name="detail"),
-    path(r"archive/<int:year>/<int:month>/", views.ArchiveView.as_view(), name = "archive"),
-    path(r"category/<int:pk>/", views.CategoryView.as_view(), name="category"),
+    path(r"archive/<int:year>/<int:month>/", views.ArchiveView.as_view(), name="archive"),
+    # path(r"category/<int:pk>/", views.CategoryView.as_view(), name="category"),
+    #path("category/<int:slug>", views.category,"category"),
+    path("category/",views.get_ancestor_category,name="ancestor_category")
 ]

@@ -8,21 +8,14 @@
     <script type="text/x-mathjax-config">
   MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 
-
-
-
     </script>
 {% endblock %}
 {% block body_block %}
     <div id="body" class="row">
-        <div class="col-md-3 pl-4 content">
-            <h3>{{ post.title }}</h3>
-            {{ post.toc|safe }}
-        </div>
         <div class="col-md-9 p-4">
             {#    header#}
-            <header class="entry-header">
-                <h1 class="entry-title">{{ post.title }}</h1>
+            <header>
+                <h1>{{ post.title }}</h1>
                 <div class="entry-meta">
                     <span class="post-category"><a href="#">{{ post.category.name }}</a></span>
                     <span class="post-date"><a href="#"><time class="entry-date"
@@ -34,6 +27,7 @@
             </header>
             {#    article#}
             <div class="entry-content clearfix pt-2">
+
                 {{ post.body|safe }}
             </div>
             {#comment form#}
@@ -96,6 +90,11 @@
             <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered
                 by Disqus.</a></noscript>
         </div>
+        <div class="col-md-3 pl-4 content">
+            <h2>{{ post.title }}</h2>
+            {{ post.toc|safe }}
+        </div>
+
     </div>
     <style>
         #body {
@@ -112,6 +111,9 @@
             word-break: break-all;
             word-wrap: break-word;
             background-color: #f1f3f1;
+
+            max-height: 800px;
+            overflow: auto;
         }
 
         ul {
@@ -139,6 +141,11 @@
             font-family: 'Ubuntu', Microsoft Yahei, sans-serif;
         }
 
+        h1, h2, h3, h4, h5, h6 {
+            padding-top: 0.5em;
+            color: rgb(48, 65, 80);
+            font-family: 'Roboto Slab', Microsoft Yahei, serif
+        }
 
     </style>
 

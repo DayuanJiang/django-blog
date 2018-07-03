@@ -1,13 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
-from .models import Post, Category
+from .models import Post
 from comment.forms import CommentForm
 import markdown
 from django.utils.text import slugify
 from markdown.extensions.toc import TocExtension
-
-
+from markdown_prism import PrismCodeExtension
 from django.views.generic import ListView, DetailView
+from categories.models import Category
 
 
 # Create your views here.
@@ -92,10 +92,22 @@ class ArchiveView(BlogView):
                                              created_time__month=created_time__month)
 
 
-class CategoryView(BlogView):
+# class CategoryView(BlogView):
+#
+#     def get_queryset(self):
+#         selected_category = get_object_or_404(Category,
+#                                               pk=self.kwargs.get("pk")
+#                                               )
+#         return super().get_queryset().filter(category=selected_category)
+#
+#
 
-    def get_queryset(self):
-        selected_category = get_object_or_404(Category,
-                                              pk=self.kwargs.get("pk")
-                                              )
-        return super().get_queryset().filter(category=selected_category)
+
+
+def get_ancestor_category(request):
+    # context = {
+    #     "categories": Category.objects.all(),
+    #     "posts":Post.objects.all(),
+    # }
+
+    return render(request, "blog/category.html", {"category": Category.objects.all()[0]})

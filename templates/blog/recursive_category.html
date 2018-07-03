@@ -1,0 +1,19 @@
+<h2>{{ category.name }}</h2>
+<ul>
+    {% if category.children.count %}
+
+            {% for child in category.children.all %}
+                <li>
+                {% include "blog/recursive_category.html" with category=child %}
+                </li>
+            {% endfor %}
+
+    {% endif %}
+    {% if category.post_set.all %}
+        {% for post in category.post_set.all %}
+            <li><a href="{% url "blog:detail" post.pk %}">{{ post.title }}</a></p></li>
+        {% endfor %}
+    {% else %}
+        <p><em>No entries for {{ category }}</em></p>
+    {% endif %}
+</ul>

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title_block %}
+    Category
+{% endblock %}
+
+{% block body_block %}
+    {% include "blog/recursive_category.html" with category=category %}
+    <style>
+            h1, h2, h3, h4, h5, h6 {
+            color: rgb(48, 65, 80);
+            font-family: 'Roboto Slab', Microsoft Yahei, serif
+        }
+    </style>
+{% endblock %}
