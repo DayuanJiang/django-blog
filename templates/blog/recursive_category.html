@@ -1,19 +1,34 @@
-<h2>{{ category.name }}</h2>
-<ul>
-    {% if category.children.count %}
+{% if not category.parent %}
+    {% for child in category.children.all %}
+        {% include "blog/recursive_category.html" with category=child %}
+    {% endfor %}
+{% else %}
+    <div class="hierarchy-category">
+        <h4><i class="far fa-folder"></i> <a href="{% url "blog:category" category.pk %}">
+            {{ category.name }}
+            </a>
+        </h4>
+        <ul>
+            {% if category.children.count %}
 
-            {% for child in category.children.all %}
-                <li>
-                {% include "blog/recursive_category.html" with category=child %}
-                </li>
-            {% endfor %}
+                {% for child in category.children.all %}
+                    <li>
+                        {% include "blog/recursive_category.html" with category=child %}
+                    </li>
+                {% endfor %}
 
-    {% endif %}
-    {% if category.post_set.all %}
-        {% for post in category.post_set.all %}
-            <li><a href="{% url "blog:detail" post.pk %}">{{ post.title }}</a></p></li>
-        {% endfor %}
-    {% else %}
-        <p><em>No entries for {{ category }}</em></p>
-    {% endif %}
-</ul>
+            {% endif %}
+            <div id="posts">
+                {% if category.post_set.all %}
+                    {% for post in category.post_set.all %}
+                        <li>{{ post.created_date_display }}&nbsp&nbsp
+                            <a href="{% url "blog:detail" post.pk %}">
+                                {{ post.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </ul>
+    </div>
+{% endif %}

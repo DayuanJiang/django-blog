@@ -1,11 +1,9 @@
 from django.shortcuts import render, get_object_or_404
-from django.core.paginator import Paginator
 from .models import Post
 from comment.forms import CommentForm
 import markdown
 from django.utils.text import slugify
 from markdown.extensions.toc import TocExtension
-from markdown_prism import PrismCodeExtension
 from django.views.generic import ListView, DetailView
 from categories.models import Category
 
@@ -55,6 +53,9 @@ class BlogView(ListView):
                 "right": right}
 
 
+
+
+
 class PostDetialView(DetailView):
     model = Post
     template_name = "blog/detail.html"
@@ -92,7 +93,7 @@ class ArchiveView(BlogView):
                                              created_time__month=created_time__month)
 
 
-# class CategoryView(BlogView):
+# class CategoryView(ListView):
 #
 #     def get_queryset(self):
 #         selected_category = get_object_or_404(Category,
@@ -103,7 +104,6 @@ class ArchiveView(BlogView):
 #
 
 
-
 def get_ancestor_category(request):
     # context = {
     #     "categories": Category.objects.all(),
@@ -111,3 +111,11 @@ def get_ancestor_category(request):
     # }
 
     return render(request, "blog/category.html", {"category": Category.objects.all()[0]})
+
+
+def get_category(request, pk):
+    selected_category = get_object_or_404(Category, pk=pk)
+    context = {
+        "category": selected_category
+    }
+    return render(request, "blog/category.html", context)

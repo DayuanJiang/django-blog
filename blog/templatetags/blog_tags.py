@@ -1,6 +1,5 @@
 from django import template
 from ..models import Post
-from django.db.models.aggregates import Count
 
 register = template.Library()
 
@@ -22,6 +21,6 @@ def archives(num=5):
     return return_data
 
 
-# @register.simple_tag
-# def get_categories():
-#     return Category.objects.annotate(num_posts=Count("post")).filter(num_posts__gt=0)
+@register.simple_tag
+def get_view_rank(num=5):
+    return Post.objects.order_by("-hit_count_generic__hits")[:num]

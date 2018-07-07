@@ -1,33 +1,46 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load blog_tags %}
-
+{% load hitcount_tags %}
 {% block title_block %}
     Blog
 {% endblock %}
 
 {% block body_block %}
-    <div class="row">
+    <div class="row body" style="max-width:1200px; margin: 0 auto; padding:5px;">
 
-        <div id="article" class="col-md-9 p-5">
+        <div id="article" class="col-md-9 py-3 px-1 border">
             {% for post in post_list %}
-                <h1 class="display-5 text-center">
-                    <a href="{% url 'blog:detail' post.pk %}">{{ post.title }} </a>
-                </h1>
-                <div class="container-fluid">
+                <div id="post">
+                    <h2 class="display-5 text-center">
+                        <a href="{% url 'blog:detail' post.pk %}">{{ post.title }} </a>
+                    </h2>
+
+                    <div style="text-align: center;">
                     <span>
                         <time class="entry-date" datetime="{{ post.created_time }}">
-                            {{ post.created_time }}
+                            {{ post.created_date_display }}
                         </time>
                     </span>
-                    <span class="">{{ post.comment_set.count }} comment{{ post.comment_set.count|pluralize }}</span>
-                    <span class=""><a href="#">588 click</a></span>
+                        &nbsp; | &nbsp;
+                        <span class="">
+                        {{ post.comment_set.count }}
+                        <i class="far fa-comments"></i>
+                    </span>
+                        &nbsp; | &nbsp;
+                        {% get_hit_count for post as total_hits %}
+                        <span class="">
+                            {{ total_hits }}
+                            <i class="far fa-eye"></i>
+                        </span>
+                    </div>
+                    <p> &nbsp;&nbsp;&nbsp;&nbsp;{{ post.excerpt }}...</p>
                 </div>
             {% empty %}
                 <div class="no-post">No Post now.</div>
             {% endfor %}
 
-            <div class="center-block">
+            <div class="text-center">
                 <ul class="pagination">
                     {% if page_obj.has_previous %}
                         <li class="page-item">
@@ -76,28 +89,28 @@
                 </ul>
             </div>
         </div>
-        <div class="col-md-3 p-5">
-            <div>
-                <h3 class="widget-title">Resent Post</h3>
+        <div id="sidebar" class="col-md-3 py-3 px-1">
+            <div id="resent-post">
+                <h4 class="widget-title">Resent Post</h4>
                 {% get_recent_posts as recent_post_list %}
-                <ul>
-                    {% for post in recent_post_list %}
-                        <li>
-                            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-                        </li>
-                    {% empty %}
-                        No post now.
-                    {% endfor %}
-                </ul>
+
+                {% for post in recent_post_list %}
+                    <div>
+                        > <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                    </div>
+                {% empty %}
+                    No post now.
+                {% endfor %}
+
             </div>
-            <div class="">
-                <h3 class="widget-title">Archive</h3>
+            <div id="archive">
+                <h4 class="widget-title">Archive</h4>
                 {% archives as date_list %}
                 <ul>
                     {% for year, month, count in date_list %}
                         <li>
                             <a href="{% url 'blog:archive' year month %}">
-                                {{ year }} 年 {{ month }}月 ( {{ count }} )
+                                {{ year }}-{{ month }} ( {{ count }} )
                             </a>
                         </li>
                     {% empty %}
@@ -105,21 +118,64 @@
                     {% endfor %}
                 </ul>
             </div>
-            {#            <div class="">#}
-            {#                <h3 class="widget-title">Category</h3>#}
-            {#                {% get_categories as category_list %}#}
-            {#                <ul>#}
-            {#                    {% for category in category_list %}#}
-            {#                        <li>#}
-            {#                            <a href="{% url 'blog:category' category.pk %}">{{ category.name }}#}
-            {#                                <span>({{ category.num_posts }})</span></a>#}
-            {#                        </li>#}
-            {#                    {% empty %}#}
-            {#                        No category now.#}
-            {#                    {% endfor %}#}
-            {#                </ul>#}
-            {#            </div>#}
+            <div id="view-rank">
+
+                <h4 class="widget-title">Most Viewed</h4>
+                {% get_view_rank as view_rank_list %}
+                {% for post in view_rank_list %}
+                    <div>
+                        > <a href="{{ post.get_absolute_url }}">
+                            {{ post.title }}
+
+                        </a>
+                    </div>
+                {% empty %}
+                    No post now.
+                {% endfor %}
+            </div>
+
         </div>
     </div>
 
+    <style>
+
+
+        .body a, .body a:visited {
+            border-bottom: 1px rgb(48, 65, 80) dotted;
+        }
+
+        .body a:hover {
+            color: rgb(91, 160, 162);
+            border-bottom: 1px rgb(91, 160, 162) dotted;
+            text-decoration: none;
+        }
+
+        .body h1, h2, h3, h4, h5, h6 {
+            padding-top: 0.5em;
+            color: rgb(48, 65, 80);
+            font-family: 'Roboto Slab', Microsoft Yahei, serif
+        }
+
+        #sidebar, #article {
+            background-color: rgba(197, 197, 197, 0.2);
+            padding: 8px 5px 5px 10px;
+            border-radius: 10px;
+
+        }
+
+        #view-rank, #archive, #post, #resent-post {
+            background-color: rgba(197, 197, 197, 0.15);
+            border-radius: 10px;
+            margin: 4px;
+        }
+
+        i {
+            color: #878f95;
+        }
+
+        nav, .pagination {
+            justify-content: center;
+        }
+
+    </style>
 {% endblock %}

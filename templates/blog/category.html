@@ -5,11 +5,41 @@
 {% endblock %}
 
 {% block body_block %}
-    {% include "blog/recursive_category.html" with category=category %}
+
+    <div id="category-container" class="col-md-10 offset-md-1 p-3 p-md-5">
+    <h3>{{ category }}</h3>
+        {% include "blog/recursive_category.html" with category=category %}
+    </div>
     <style>
-            h1, h2, h3, h4, h5, h6 {
+        h1, h2, h3, h4, h5, h6 {
             color: rgb(48, 65, 80);
             font-family: 'Roboto Slab', Microsoft Yahei, serif
+        }
+
+        #category-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .hierarchy-category li {
+            list-style-type: none;
+        }
+
+        .hierarchy-category {
+            background-color: rgba(197, 197, 197, 0.2);
+            padding: 8px 5px 5px 10px;
+            border-radius: 10px;
+            margin: 2px;
+        }
+
+        .hierarchy-category a, .hierarchy-category a:visited {
+            border-bottom: 1px rgb(48, 65, 80) dotted;
+        }
+
+        .hierarchy-category a:hover {
+            color: rgb(91, 160, 162);
+            border-bottom: 1px rgb(91, 160, 162) dotted;
+            text-decoration: none;
         }
     </style>
 {% endblock %}

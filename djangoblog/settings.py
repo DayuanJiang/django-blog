@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "mptt",
     "categories",
     "categories.editor",
+    'hitcount',
 ]
 
 MIDDLEWARE = [
