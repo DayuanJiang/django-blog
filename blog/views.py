@@ -70,7 +70,6 @@ class PostDetialView(DetailView):
         return post
 
 
-
 class ArchiveView(BlogView):
     def get_queryset(self):
         created_time__year = self.kwargs.get("year")
@@ -88,7 +87,7 @@ def about(request):
         TocExtension(slugify=slugify),
     ])
     about_post.body = md.convert(about_post.body)
-    return render(request, "blog/about.html", context={"about":about_post})
+    return render(request, "blog/about.html", context={"about": about_post})
 
 
 def get_category(request, pk):

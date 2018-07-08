@@ -24,6 +24,7 @@ SECRET_KEY = '&9b)9$rvruxjbf*7c9rmy*lr$g2hm_s^=d+@&kn#4)k&5g^xd9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = [
     "jiang.jp",
     "www.jiang.jp",
