@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block title_block %}
+    About
+{% endblock %}
+
+{% block body_block %}
+    <div id="about" style="max-width:1000px; margin: 0 auto; padding:20px;">
+        {{ about.body|safe }}
+    </div>
+    <style>
+        #about a, #about a:visited {
+            border-bottom: 1px rgb(48, 65, 80) dotted;
+        }
+
+        #about a:hover {
+            color: rgb(91, 160, 162);
+            border-bottom: 1px rgb(91, 160, 162) dotted;
+            text-decoration: none;
+        }
+    </style>
+{% endblock %}

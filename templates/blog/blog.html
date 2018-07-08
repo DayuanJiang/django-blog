@@ -24,8 +24,7 @@
                     </span>
                         &nbsp; | &nbsp;
                         <span class="">
-                        {{ post.comment_set.count }}
-                        <i class="far fa-comments"></i>
+                            <a href="{% url 'blog:category' post.category.pk %}">{{ post.category.name }} </a>
                     </span>
                         &nbsp; | &nbsp;
                         {% get_hit_count for post as total_hits %}
@@ -40,53 +39,37 @@
                 <div class="no-post">No Post now.</div>
             {% endfor %}
 
-            <div class="text-center">
-                <ul class="pagination">
+            <div id="pagination" class="text-center">
+                <div class="pagination">
                     {% if page_obj.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page=1">&laquo;</a>
-                        </li>
+                        <a href="?page=1">&laquo;</a>
                     {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link" href="?page=1">&laquo;</a>
-                        </li>
+                        <a class="disabled">&laquo;</a>
                     {% endif %}
 
-
                     {% for left_page in left %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ left_page }}">{{ left_page }}</a>
-                        </li>
+                        <a href="?page={{ left_page }}">{{ left_page }}</a>
                     {% endfor %}
 
-
-                    <li class="page-item active">
-                        <a class="page-link" href="#">
-                            {{ page_obj.number }}
-                        </a>
-                    </li>
+                    <a class="active" href="#">{{ page_obj.number }}</a>
 
                     {% if right %}
                         {% for right_page in right %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ right_page }}">{{ right_page }}</a>
-                            </li>
+                            <a href="?page={{ right_page }}">{{ right_page }}</a>
                         {% endfor %}
                     {% endif %}
 
                     {% if page_obj.has_next %}
-                        <li class="page-item">
-                            <a class="page-link"
-                               href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}
-                                &raquo;</a>
-                        </li>
+                        <a href="?page={{ page_obj.paginator.num_pages }}">
+                            {% if page_obj.paginator.num_pages > 10 %}
+                                {{ page_obj.paginator.num_pages }}
+                            {% endif %}
+                            &raquo;</a>
                     {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link" href="?page=1">&raquo;</a>
-                        </li>
+                        <a>&raquo;</a>
                     {% endif %}
 
-                </ul>
+                </div>
             </div>
         </div>
         <div id="sidebar" class="col-md-3 py-3 px-1">
@@ -103,6 +86,22 @@
                 {% endfor %}
 
             </div>
+
+            <div id="view-rank">
+
+                <h4 class="widget-title">Most Viewed</h4>
+                {% get_view_rank as view_rank_list %}
+                {% for post in view_rank_list %}
+                    <div>
+                        > <a href="{{ post.get_absolute_url }}">
+                        {{ post.title }}
+
+                    </a>
+                    </div>
+                {% empty %}
+                    No post now.
+                {% endfor %}
+            </div>
             <div id="archive">
                 <h4 class="widget-title">Archive</h4>
                 {% archives as date_list %}
@@ -118,25 +117,8 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div id="view-rank">
-
-                <h4 class="widget-title">Most Viewed</h4>
-                {% get_view_rank as view_rank_list %}
-                {% for post in view_rank_list %}
-                    <div>
-                        > <a href="{{ post.get_absolute_url }}">
-                            {{ post.title }}
-
-                        </a>
-                    </div>
-                {% empty %}
-                    No post now.
-                {% endfor %}
-            </div>
-
         </div>
     </div>
-
     <style>
 
 
@@ -175,6 +157,28 @@
 
         nav, .pagination {
             justify-content: center;
+        }
+
+        .pagination {
+            display: inline-block;
+        }
+
+        #pagination a {
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-bottom: none;
+        }
+
+        #pagination a.active {
+            background-color: rgba(48, 65, 80, 0.5);
+            color: white;
+            text-decoration: none;
+        }
+
+        #pagination a:hover:not(.active) {
+            background-color: #ddd;
+            text-decoration: none;
         }
 
     </style>

@@ -53,9 +53,6 @@ class BlogView(ListView):
                 "right": right}
 
 
-
-
-
 class PostDetialView(DetailView):
     model = Post
     template_name = "blog/detail.html"
@@ -93,24 +90,16 @@ class ArchiveView(BlogView):
                                              created_time__month=created_time__month)
 
 
-# class CategoryView(ListView):
-#
-#     def get_queryset(self):
-#         selected_category = get_object_or_404(Category,
-#                                               pk=self.kwargs.get("pk")
-#                                               )
-#         return super().get_queryset().filter(category=selected_category)
-#
-#
-
-
-def get_ancestor_category(request):
-    # context = {
-    #     "categories": Category.objects.all(),
-    #     "posts":Post.objects.all(),
-    # }
-
-    return render(request, "blog/category.html", {"category": Category.objects.all()[0]})
+def about(request):
+    about_post = get_object_or_404(Post, title="About")
+    md = markdown.Markdown(extensions=[
+        'markdown.extensions.extra',
+        'markdown.extensions.codehilite',
+        'markdown.extensions.toc',
+        TocExtension(slugify=slugify),
+    ])
+    about_post.body = md.convert(about_post.body)
+    return render(request, "blog/about.html", context={"about":about_post})
 
 
 def get_category(request, pk):
