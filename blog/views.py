@@ -69,16 +69,6 @@ class PostDetialView(DetailView):
         post.toc = md.toc
         return post
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        form = CommentForm()
-        comment_list = self.object.comment_set.all()
-        update_data = {
-            "form": form,
-            "comment_list": comment_list
-        }
-        context.update(update_data)
-        return context
 
 
 class ArchiveView(BlogView):
