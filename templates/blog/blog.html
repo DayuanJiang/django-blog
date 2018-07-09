@@ -9,7 +9,7 @@
 {% block body_block %}
     <div class="row body" style="max-width:1200px; margin: 0 auto; padding:5px;">
 
-        <div id="article" class="col-md-9 py-3 px-1 border">
+        <div id="article" class="col-md-9 p-0">
             {% for post in post_list %}
                 <div id="post">
                     <h2 class="display-5 text-center">
@@ -72,14 +72,14 @@
                 </div>
             </div>
         </div>
-        <div id="sidebar" class="col-md-3 py-3 px-1">
+        <div id="sidebar" class="col-md-3 p-0 pl-md-1">
             <div id="resent-post">
                 <h4 class="widget-title">Resent Post</h4>
                 {% get_recent_posts as recent_post_list %}
 
                 {% for post in recent_post_list %}
                     <div>
-                        > <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                         &nbsp; &nbsp; > <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
                     </div>
                 {% empty %}
                     No post now.
@@ -93,7 +93,7 @@
                 {% get_view_rank as view_rank_list %}
                 {% for post in view_rank_list %}
                     <div>
-                        > <a href="{{ post.get_absolute_url }}">
+                         &nbsp; &nbsp;> <a href="{{ post.get_absolute_url }}">
                         {{ post.title }}
 
                     </a>
@@ -135,24 +135,21 @@
         .body h1, h2, h3, h4, h5, h6 {
             padding-top: 0.5em;
             color: rgb(48, 65, 80);
-            font-family: 'Roboto Slab', Microsoft Yahei, serif
+            font-family: -apple-system,'Roboto Slab', Microsoft Yahei, serif
         }
 
-        #sidebar, #article {
-            background-color: rgba(197, 197, 197, 0.2);
-            padding: 8px 5px 5px 10px;
-            border-radius: 10px;
-
-        }
 
         #view-rank, #archive, #post, #resent-post {
             background-color: rgba(197, 197, 197, 0.15);
             border-radius: 10px;
-            margin: 4px;
         }
 
         i {
             color: #878f95;
+        }
+
+        #article p {
+            padding:10px;
         }
 
         nav, .pagination {

@@ -12,16 +12,6 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-
-
-
-
-
-
-
-
-
-
     </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
     <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
@@ -32,6 +22,7 @@
     {% get_hit_count_js_variables for post as hitcount %}
     {% get_hit_count for post as total_hits %}
     <div id="body" class="row" style="max-width:1200px; margin: 0 auto">
+
         <div class="col-md-9 ">
             {#    header#}
             <header>
@@ -56,7 +47,7 @@
             <hr>
 
         </div>
-        <div class="col-md-3  content">
+        <div class="col-md-3 col-sm-12 content">
             <div id="content" style="position: sticky;top: 1px">
                 <h3>{{ post.title }}</h3>
                 {{ post.toc|safe }}
@@ -69,7 +60,6 @@
     <style>
         #body {
             background-color: #f9f9f5;
-            padding: 20px;
         }
 
         .toc {
@@ -115,7 +105,7 @@
         #body h1, h2, h3, h4, h5, h6 {
             padding-top: 0.5em;
             color: rgb(48, 65, 80);
-            font-family: 'Roboto Slab', Microsoft Yahei, serif
+            font-family: -apple-system,'Roboto Slab', Microsoft Yahei, serif
         }
 
         img {
@@ -213,6 +203,7 @@
             admin: 'DayuanJiang',
             distractionFreeMode: false,  // Facebook-like distraction free mode
             language: "en",
+            id:"post_{{ post.pk }}"
         })
 
         gitalk.render('gitalk-container')

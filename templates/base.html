@@ -27,7 +27,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{% static 'blog/css/highlights/emacs.css' %}" rel="stylesheet">
+    <link href="{% static 'blog/css/highlights/emacs.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400" rel="stylesheet">
     {% block src_block %}
     {% endblock %}
@@ -46,8 +46,8 @@
     gtag('config', 'UA-78379810-1');
 </script>
 
-<div class="container-fluid p-5">
-    <p id="header_text" class="display-4 text-center ">Jiang</p>
+<div class="container-fluid">
+    <p id="header_text" class="display-4 text-center p-4">Jiang</p>
 </div>
 
 <nav class="text-center">
@@ -71,19 +71,21 @@
 {% block body_block %}
 {% endblock %}
 
+<footer class="text-center">
 
-<div class="row">
-    <div id="bottom_bar" class="container-fluid p-5">
-    </div>
-</div>
-
+</footer>
 </body>
 
 <style>
+    {% block css_block %}
+    {% endblock %}
+
     body {
         background-color: #f9f9f5;
-        font-family: -apple-system, 'Roboto Slab', "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Microsoft Yahei";
-    "Segoe UI Symbol";
+    {#    font-family: -apple-system, 'Roboto Slab', "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Microsoft Yahei";#}
+    {#"Segoe UI Symbol";#}
+        font-family: -apple-system,'Roboto Slab', BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue","Helvetica",PingFang SC,PingFang TC,Hiragino Sans GB,STHeiti,Microsoft YaHei,Microsoft JhengHei,"WenQuanYi Micro Hei",sans-serif;
+
         max-width: 100%;
         overflow-x: hidden;
         color: rgb(48, 65, 80);
@@ -95,11 +97,8 @@
         border-bottom: 1px solid rgb(48, 65, 80);
     }
 
-    #img-div {
-        background-color: white;
-    }
-
-    #bottom_bar {
+    footer {
+        height: 100px;
         background-color: rgb(48, 65, 80);
     }
 
@@ -118,7 +117,6 @@
 
 </style>
 <script>
-
     $(function () {
         $('nav a').each(function () {
             if ($(this).prop('href') == window.location.href) {
