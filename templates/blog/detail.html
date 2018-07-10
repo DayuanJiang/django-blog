@@ -12,6 +12,11 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+
+
+
+
+
     </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
     <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
@@ -22,7 +27,12 @@
     {% get_hit_count_js_variables for post as hitcount %}
     {% get_hit_count for post as total_hits %}
     <div id="body" class="row" style="max-width:1200px; margin: 0 auto">
-
+        <div class="col-md-3 col-md-offset-12 col-sm-12 content">
+            <div id="content">
+                <h3>{{ post.title }}</h3>
+                {{ post.toc|safe }}
+            </div>
+        </div>
         <div class="col-md-9 ">
             {#    header#}
             <header>
@@ -47,20 +57,13 @@
             <hr>
 
         </div>
-        <div class="col-md-3 col-sm-12 content">
-            <div id="content" style="position: sticky;top: 1px">
-                <h3>{{ post.title }}</h3>
-                {{ post.toc|safe }}
-            </div>
-        </div>
+
         <div id="gitalk-container" class="col-md-9">Comments</div>
 
     </div>
 
     <style>
-        #body {
-            background-color: #f9f9f5;
-        }
+
 
         .toc {
             float: left;
@@ -68,28 +71,22 @@
         }
 
         pre {
+            padding: 5px;
             border-radius: 10px;
             display: block;
-            padding: 9.5px;
-            margin: 9.5px 9.5px 9.5px 20px;
             font-size: 13px;
             line-height: 1.42857143;
             color: #333;
             word-break: break-all;
-            word-wrap: break-word;
             background-color: #f1f3f1;
-
-            max-height: 80vh;
+            -webkit-overflow-scrolling: touch;
+            max-height: 60vh;
             overflow: auto;
         }
 
         .toc ul {
             -webkit-padding-start: 20px;
             list-style-type: none;
-        }
-
-        .content {
-            padding-top: 100px
         }
 
         #body a, #body a:visited {
@@ -105,7 +102,7 @@
         #body h1, h2, h3, h4, h5, h6 {
             padding-top: 0.5em;
             color: rgb(48, 65, 80);
-            font-family: -apple-system,'Roboto Slab', Microsoft Yahei, serif
+            font-family: -apple-system, 'Roboto Slab', Microsoft Yahei, serif
         }
 
         img {
@@ -116,16 +113,8 @@
             padding: 20px 0 20px 0;
         }
 
-        pre, .toc {
-            overflow: hidden;
-        }
-
-        pre:hover, .toc:hover {
-            overflow: auto;
-        }
-
         .stickyTop {
-            position: sticky;
+            position: fixed;
             top: 0;
             width: 100%;
             background-color: #eeeeea;
@@ -133,7 +122,7 @@
         }
 
         pre::-webkit-scrollbar-track, .toc::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            -webkit-box-shadow: rgba(0, 0, 0, 0.3);
             border-radius: 10px;
 
         }
@@ -146,7 +135,7 @@
 
         pre::-webkit-scrollbar-thumb, .toc::-webkit-scrollbar-thumb {
             border-radius: 20px;
-            -webkit-box-shadow: inset 0 0 6px rgba(79, 79, 79, 0.3);
+            -webkit-box-shadow: rgba(79, 79, 79, 0.3);
             background-color: #b7b7b7;
         }
 
@@ -154,6 +143,14 @@
             background-color: rgba(197, 197, 197, 0.2);
             color: black;
             text-shadow: 1px 0px 0px black;
+        }
+
+        @media only screen and (min-width: 768px) {
+            .content {
+                position: sticky;
+                top: 1px;
+                max-height: 20px;
+            }
         }
 
     </style>
@@ -170,8 +167,10 @@
                         let header = $(headers[index - 1]);
 
                         let id = header.attr('id');
-                        headers.removeClass("stickyTop");
-                        header.addClass("stickyTop");
+                        if ($(window).width() > 1200) {
+                            headers.removeClass("stickyTop");
+                            header.addClass("stickyTop");
+                        }
                         $('li a').removeClass('current');
                         let toc = $('a[href$="' + id + '"]');
                         toc.addClass("current");
@@ -185,16 +184,13 @@
                 }
             });
         });
+
+
         $(document).ready(function ($) {
-            $.postCSRF("{{ hitcount.ajax_url }}", {hitcountPK: "{{ hitcount.pk }}"})
-                .done(function (data) {
-                    $('<i />').text(data.hit_counted).attr('id', 'hit-counted-value').appendTo('#hit-counted');
-                    $('#hit-response').text(data.hit_message);
-                }).fail(function (data) {
-                console.log('POST failed');
-                console.log(data);
-            });
+            $.postCSRF("{{ hitcount.ajax_url }}", {hitcountPK : "{{ hitcount.pk }}"})
+                .done(console.log("{{ hitcount.ajax_url }}"))
         });
+
         let gitalk = new Gitalk({
             clientID: '8115dfa9163da65c4620',
             clientSecret: '6dfe12047d10198bb4300a6d03d073ed955abeaa',
@@ -203,7 +199,7 @@
             admin: 'DayuanJiang',
             distractionFreeMode: false,  // Facebook-like distraction free mode
             language: "en",
-            id:"post_{{ post.pk }}"
+            id: "post_{{ post.pk }}"
         })
 
         gitalk.render('gitalk-container')
