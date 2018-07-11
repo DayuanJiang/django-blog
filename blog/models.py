@@ -54,10 +54,9 @@ class Post(models.Model):
         return self.last_modified.strftime('%Y-%m-%d %H:%M')
 
     def save(self, *args, **kwargs):
-        if not self.excerpt:
-            md = markdown.Markdown(extensions=[
-                'markdown.extensions.extra',
-                'markdown.extensions.codehilite',
-            ])
-            self.excerpt = strip_tags(md.convert(self.body))[:199]
+        md = markdown.Markdown(extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+        ])
+        self.excerpt = strip_tags(md.convert(self.body))[:199]
         super(Post, self).save(*args, **kwargs)
