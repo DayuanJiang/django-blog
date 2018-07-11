@@ -8,14 +8,15 @@
 {% endblock %}
 
 {% block src_block %}
-    <script src="{% static 'blog/js/hitcount/jquery.postcsrf.js' %}"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 
+
+
     </script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
-  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
 
 {% endblock %}
 
@@ -94,8 +95,6 @@
             text-decoration: none;
         }
 
-
-
         img {
             max-width: 100%;
         }
@@ -145,6 +144,7 @@
         }
 
     </style>
+    {% csrf_token %}
     <script>
         $(document).ready(function () {
             $(window).scroll(function () {
@@ -171,7 +171,40 @@
                 }
             });
         });
+        (function ($) {
 
+            $.postCSRF = function (url, data, callback, type) {
+
+                function csrfSafeMethod(method) {
+                    // these HTTP methods do not require CSRF protection
+                    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+                }
+
+
+                var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
+                // shift arguments if data argument was omitted
+                if ($.isFunction(data)) {
+                    type = type || callback;
+                    callback = data;
+                    data = undefined;
+                }
+
+                return $.ajax(jQuery.extend({
+                    url: url,
+                    type: "POST",
+                    dataType: type,
+                    data: data,
+                    success: callback,
+                    beforeSend: function (xhr, settings) {
+                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                        }
+                    }
+                }, jQuery.isPlainObject(url) && url));
+            };
+
+        }(jQuery));
 
         $(document).ready(function ($) {
             $.postCSRF("{{ hitcount.ajax_url }}", {hitcountPK: "{{ hitcount.pk }}"})
