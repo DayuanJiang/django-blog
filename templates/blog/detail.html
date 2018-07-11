@@ -17,9 +17,11 @@
 
 
 
+
+
     </script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
-    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
 
 {% endblock %}
 
@@ -27,13 +29,13 @@
     {% get_hit_count_js_variables for post as hitcount %}
     {% get_hit_count for post as total_hits %}
     <div id="body" class="row" style="max-width:1200px; margin: 0 auto">
-        <div class="col-md-3 col-md-offset-12 col-sm-12 content">
+        <div class="col-md-3  col-sm-12 order-md-2 content">
             <div id="content">
                 <h3>{{ post.title }}</h3>
                 {{ post.toc|safe }}
             </div>
         </div>
-        <div class="col-md-9 ">
+        <div class="col-md-9 col-sm-12 order-md-1">
             {#    header#}
             <header>
                 <h1>{{ post.title }}</h1>
@@ -58,8 +60,8 @@
 
         </div>
 
-        <div id="gitalk-container" class="col-md-9">Comments</div>
 
+<div id="vcomments" class="col-md-9 order-md-3">Comments</div>
     </div>
 
     <style>
@@ -102,7 +104,7 @@
         #body h1, h2, h3, h4, h5, h6 {
             padding-top: 0.5em;
             color: rgb(48, 65, 80);
-            font-family: -apple-system, 'Roboto Slab',"Helvetica Neue", Microsoft Yahei, serif
+            font-family: -apple-system, 'Roboto Slab', "Helvetica Neue", Microsoft Yahei, serif
         }
 
         img {
@@ -187,7 +189,7 @@
 
 
         $(document).ready(function ($) {
-            $.postCSRF("{{ hitcount.ajax_url }}", {hitcountPK : "{{ hitcount.pk }}"})
+            $.postCSRF("{{ hitcount.ajax_url }}", {hitcountPK: "{{ hitcount.pk }}"})
                 .done(console.log("{{ hitcount.ajax_url }}"))
         });
 
@@ -199,9 +201,15 @@
             admin: 'DayuanJiang',
             distractionFreeMode: false,  // Facebook-like distraction free mode
             language: "en",
-            id: "post_{{ post.pk }}"
+            id: "{% url 'blog:detail' post.pk %}"
         })
 
         gitalk.render('gitalk-container')
+        new Valine({
+            el: '#vcomments',
+            appId: 'xF18lrCyCtn6nclXIr0toQIO-gzGzoHsz',
+            appKey: 'ekKaUG1eX8Aae885vwsUw1rA'
+        })
+
     </script>
 {% endblock %}
