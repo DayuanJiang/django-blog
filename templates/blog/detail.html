@@ -13,15 +13,9 @@
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
 
-
-
-
-
-
-
     </script>
-    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
 
 {% endblock %}
 
@@ -61,7 +55,7 @@
         </div>
 
 
-<div id="vcomments" class="col-md-9 order-md-3">Comments</div>
+        <div id="gitalk-container" class="col-md-9 order-md-3">Comments</div>
     </div>
 
     <style>
@@ -101,11 +95,7 @@
             text-decoration: none;
         }
 
-        #body h1, h2, h3, h4, h5, h6 {
-            padding-top: 0.5em;
-            color: rgb(48, 65, 80);
-            font-family: -apple-system, 'Roboto Slab', "Helvetica Neue", Microsoft Yahei, serif
-        }
+
 
         img {
             max-width: 100%;
@@ -169,10 +159,6 @@
                         let header = $(headers[index - 1]);
 
                         let id = header.attr('id');
-                        if ($(window).width() > 1200) {
-                            headers.removeClass("stickyTop");
-                            header.addClass("stickyTop");
-                        }
                         $('li a').removeClass('current');
                         let toc = $('a[href$="' + id + '"]');
                         toc.addClass("current");
@@ -190,8 +176,7 @@
 
         $(document).ready(function ($) {
             $.postCSRF("{{ hitcount.ajax_url }}", {hitcountPK: "{{ hitcount.pk }}"})
-                .done(console.log("{{ hitcount.ajax_url }}"))
-        });
+        }).then(console.log({{ hitcount.pk }}));
 
         let gitalk = new Gitalk({
             clientID: '8115dfa9163da65c4620',
@@ -205,11 +190,7 @@
         })
 
         gitalk.render('gitalk-container')
-        new Valine({
-            el: '#vcomments',
-            appId: 'xF18lrCyCtn6nclXIr0toQIO-gzGzoHsz',
-            appKey: 'ekKaUG1eX8Aae885vwsUw1rA'
-        })
+
 
     </script>
 {% endblock %}
