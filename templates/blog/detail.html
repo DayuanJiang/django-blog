@@ -175,7 +175,7 @@
 
         $(document).ready(function ($) {
             $.postCSRF("{{ hitcount.ajax_url }}", {hitcountPK: "{{ hitcount.pk }}"})
-        }).then(console.log({{ hitcount.pk }}));
+        });
 
         let gitalk = new Gitalk({
             clientID: '8115dfa9163da65c4620',
