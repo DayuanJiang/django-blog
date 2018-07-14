@@ -2,128 +2,139 @@
 {% load static %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>
-        Jiang -{% block title_block %}{% endblock %}
-    </title>
-    {# Awesome icon #}
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/regular.css"
-          integrity="sha384-avJt9MoJH2rB4PKRsJRHZv7yiFZn8LrnXuzvmZoD3fh1aL6aM6s0BBcnCvBe6XSD" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css"
-          integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
-    {#    bootstrap   #}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
-            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
-            crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
-    <link href="{% static 'blog/css/highlights/emacs.css' %}" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400" rel="stylesheet">
-    {% block src_block %}
-    {% endblock %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>
+    Jiang -{% block title_block %}{% endblock %}
+  </title>
+  {# Awesome icon #}
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/regular.css"
+        integrity="sha384-avJt9MoJH2rB4PKRsJRHZv7yiFZn8LrnXuzvmZoD3fh1aL6aM6s0BBcnCvBe6XSD" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/fontawesome.css"
+        integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+  {#    bootstrap   #}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+        integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+          crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+          integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+          crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+          integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+          crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous"></script>
+  <link href="{% static 'blog/css/highlights/emacs.css' %}" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400" rel="stylesheet">
+  {% block src_block %}
+  {% endblock %}
 </head>
 <!-- Global Site Tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
 <script>
-    window.dataLayer = window.dataLayer || [];
+  window.dataLayer = window.dataLayer || [];
 
-    function gtag() {
-        dataLayer.push(arguments);
-    }
+  function gtag() {
+    dataLayer.push(arguments);
+  }
 
-    gtag('js', new Date());
+  gtag('js', new Date());
 
-    gtag('config', 'UA-78379810-1');
+  gtag('config', 'UA-78379810-1');
 </script>
 
 <div class="container-fluid">
-    <p id="header_text" class="display-4 text-center p-4">Jiang</p>
+  <p id="header_text" class="display-4 text-center p-4">Jiang</p>
 </div>
 
 <nav class="text-center">
-    <ul class="nav justify-content-center">
-        <li class="nav-item">
-            <a class="nav-link active" href="{% url 'blog:index' %}">Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'blog:blog' %}">Blog</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'blog:category' 'Category' %}">Category</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'blog:about' %}">About</a>
-        </li>
-    </ul>
+  <ul class="nav justify-content-center">
+    <li class="nav-item">
+      <a class="nav-link active" href="{% url 'blog:index' %}">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'blog:blog' %}">Blog</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'blog:category' 'category' %}">Category</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'blog:about' %}">About</a>
+    </li>
+  </ul>
 </nav>
 <body id="main">
 
 {% block body_block %}
 {% endblock %}
 
-<footer class="text-center">
+<footer class="row" style="color:white;">
+  <div class="col-6 offset-3 align-self-center text-center">
+    <div>
+    <a href="https://github.com/DayuanJiang" target="_blank">
+      <img height="20" align="center" src="https://res.cloudinary.com/jiang/image/upload/v1531546910/GitHub-Mark-Light-32px.png"/>
+    </a>
+      <script type="text/javascript">
+    date = new Date();
+    year = date.getFullYear();
+    document.write("&copy;2018-"+year + "");
+  </script>
+      </div>
+  </div>
+
 
 </footer>
 </body>
 
 <style>
-    {% block css_block %}
-    {% endblock %}
+  {% block css_block %}
+  {% endblock %}
 
-    body {
-        background-color: #f9f9f5;
-    {#    font-family: -apple-system, 'Roboto Slab', "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Microsoft Yahei";#}
-    {#"Segoe UI Symbol";#}
-        font-family:  'Roboto Slab',"Helvetica Neue", BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue","Helvetica",PingFang SC,PingFang TC,Hiragino Sans GB,STHeiti,Microsoft YaHei,Microsoft JhengHei,"WenQuanYi Micro Hei",sans-serif;
+  body {
+    background-color: #f9f9f5;
+  {#    font-family: -apple-system, 'Roboto Slab', "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Microsoft Yahei";#}{#"Segoe UI Symbol";#} font-family: 'Roboto Slab', "Helvetica Neue", BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", "Helvetica", PingFang SC, PingFang TC, Hiragino Sans GB, STHeiti, Microsoft YaHei, Microsoft JhengHei, "WenQuanYi Micro Hei", sans-serif;
 
-        max-width: 100%;
-        overflow-x: hidden;
-        color: rgb(48, 65, 80);
+    max-width: 100%;
+    overflow-x: hidden;
+    color: rgb(48, 65, 80);
 
-    }
+  }
 
-    nav {
-        border-top: 1px solid rgb(48, 65, 80);
-        border-bottom: 1px solid rgb(48, 65, 80);
-    }
+  nav {
+    border-top: 1px solid rgb(48, 65, 80);
+    border-bottom: 1px solid rgb(48, 65, 80);
+  }
 
-    footer {
-        height: 100px;
-        background-color: rgb(48, 65, 80);
-    }
+  footer {
+    height: 100px;
+    background-color: rgb(48, 65, 80);
+  }
 
-    #header_text {
-        color: rgb(48, 65, 80);
-        font-family: -apple-system, 'Roboto Slab',"Helvetica Neue", serif;
-    }
+  #header_text {
+    color: rgb(48, 65, 80);
+    font-family: -apple-system, 'Roboto Slab', "Helvetica Neue", serif;
+  }
 
-    a {
-        color: rgb(48, 65, 80);
-    }
+  a {
+    color: rgb(48, 65, 80);
+  }
 
-    a:hover {
-        color: rgb(95, 127, 144);
-    }
+  a:hover {
+    color: rgb(95, 127, 144);
+  }
 
 </style>
 <script>
-    $(function () {
-        $('nav a').each(function () {
-            if ($(this).prop('href') == window.location.href) {
-                $(this).css({"font-weight": "bold"});
-            }
-        });
+  $(function () {
+    $('nav a').each(function () {
+      if ($(this).prop('href') == window.location.href) {
+        $(this).css({"font-weight": "bold"});
+      }
     });
+  });
 </script>
 
 
