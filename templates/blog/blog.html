@@ -25,7 +25,7 @@
                     </span>
                         &nbsp; | &nbsp;
                         <span class="">
-                            <a href="{% url 'blog:category' post.category.pk %}">{{ post.category.name }} </a>
+                            <a href="{% url 'blog:category' post.category.slug %}">{{ post.category.name }} </a>
                     </span>
                         &nbsp; | &nbsp;
                         {% get_hit_count for post as total_hits %}
