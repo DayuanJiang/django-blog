@@ -90,8 +90,8 @@ def about(request):
     return render(request, "blog/about.html", context={"about": about_post})
 
 
-def get_category(request, pk):
-    selected_category = get_object_or_404(Category, pk=pk)
+def get_category(request, slug):
+    selected_category = get_object_or_404(Category, slug=slug)
     context = {
         "category": selected_category
     }

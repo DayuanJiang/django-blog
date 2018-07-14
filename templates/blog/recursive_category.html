@@ -4,7 +4,7 @@
     {% endfor %}
 {% else %}
     <div class="hierarchy-category">
-        <h4><i class="far fa-folder"></i> <a href="{% url "blog:category" category.pk %}">
+        <h4><i class="far fa-folder"></i> <a href="{% url "blog:category" category.slug %}">
             {{ category.name }}
             </a>
         </h4>

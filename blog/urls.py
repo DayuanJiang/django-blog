@@ -8,6 +8,6 @@ urlpatterns = [
     path(r"blog/", views.BlogView.as_view(), name="blog"),
     path(r"blog/<int:pk>/", views.PostDetialView.as_view(), name="detail"),
     path(r"archive/<int:year>/<int:month>/", views.ArchiveView.as_view(), name="archive"),
-    path("category/<int:pk>/", views.get_category, name="category"),
+    path("category/<str:slug>/", views.get_category, name="category"),
     path("about/", views.about, name="about"),
 ]
