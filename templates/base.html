@@ -27,7 +27,7 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"
           integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
           crossorigin="anonymous"></script>
-  <link href="{% static 'blog/css/highlights/emacs.css' %}" rel="stylesheet">
+
   <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400" rel="stylesheet">
   {% block src_block %}
   {% endblock %}
@@ -74,6 +74,7 @@
 <footer style="color:white;">
   <div id="copyright">
     <div>
+      <p><a href="{% url 'admin:index' %}">Admin</a></p>
       <a href="https://github.com/DayuanJiang" target="_blank">
         <img height="20" align="center"
              src="https://res.cloudinary.com/jiang/image/upload/v1531546910/GitHub-Mark-Light-32px.png"/>
@@ -83,7 +84,6 @@
         year = date.getFullYear();
         document.write("&copy;2018-" + year + "");
       </script>
-      <a href="{% url 'admin:index' %}">Admin</a>
     </div>
   </div>
 

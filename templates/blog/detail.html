@@ -13,7 +13,12 @@
   <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
   <script type="text/x-mathjax-config">
         MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+
+
+
   </script>
+  <link href="{% static 'blog/css/highlights/perldoc.css' %}" rel="stylesheet">
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
   <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
   <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
@@ -37,7 +42,8 @@
       <header>
         <h1>{{ post.title }}</h1>
         <div class="post-meta">
-          <span class="post-category"><a href="{% url 'blog:category' post.category.slug %}">{{ post.category.name }}</a></span>
+          <span class="post-category"><a
+            href="{% url 'blog:category' post.category.slug %}">{{ post.category.name }}</a></span>
           &nbsp; | &nbsp;
           <span class="post-date">
                         <time class="entry-date" datetime="{{ post.created_time }}">
@@ -76,10 +82,9 @@
       overflow-y: auto;
     }
 
-
-
-    pre {
+    body pre {
       padding: 5px;
+      margin: 25px 0;
       border-radius: 10px;
       display: block;
       font-size: 13px;
@@ -106,10 +111,10 @@
       text-decoration: none;
     }
 
-    img {
+    #body img {
       max-width: 100%;
-      margin: 0 auto;
-          display: block;
+      margin: 25px auto;
+      display: block;
     }
 
     #article {
@@ -146,6 +151,7 @@
       font-size: 1em;
 
     }
+
     .current {
       background-color: rgba(197, 197, 197, 0.2);
       color: black;
@@ -153,10 +159,11 @@
     }
 
     code {
-      font-weight: bold;
+      font-weight: 700;
       background-color: rgba(197, 197, 197, 0.2);
       border-radius: 1px;
       padding: 0 1px 0 1px;
+      color: rgb(48, 65, 80);
     }
 
     @media only screen and (min-width: 768px) {
@@ -167,10 +174,20 @@
       }
     }
 
-    h2 {
-      padding: 10px 0 10px 0;
+    h1, h2, h3, h4 {
+      margin: 0.5em 0;
+    }
+
+    h1, h2 {
+      padding: 0.5em 0;
       border-bottom: 2px rgba(197, 197, 197, 0.2) solid;
     }
+
+    #body p {
+      margin: 1em 0;
+    }
+
+
 
   </style>
   {% csrf_token %}
