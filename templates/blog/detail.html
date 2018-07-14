@@ -1,225 +1,247 @@
 {% extends "base.html" %}
 {% load hitcount_tags %}
 {% load staticfiles %}
+{% load category_tags %}
+
 {% get_hit_count for post as total_hits %}
 
 {% block title_block %}
-    {{ post.title }}
+  {{ post.title }}
 {% endblock %}
 
 {% block src_block %}
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
-    <script type="text/x-mathjax-config">
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+  <script type="text/x-mathjax-config">
         MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-
-
-
-    </script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
-    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
-    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
 {% endblock %}
 
 {% block body_block %}
-    {% get_hit_count_js_variables for post as hitcount %}
-    {% get_hit_count for post as total_hits %}
-    <div id="body" class="row pt-3" style="max-width:1200px; margin: 0 auto">
-        <div class="col-md-3  col-sm-12 order-md-2 content">
-            <div id="content">
-                <h3>{{ post.title }}</h3>
-                {{ post.toc|safe }}
-            </div>
-        </div>
-        <div class="col-md-9 col-sm-12 order-md-1">
-            {#    header#}
-            <header>
-                <h1>{{ post.title }}</h1>
-                <div class="post-meta">
-                    <span class="post-category"><a href="#">{{ post.category.name }}</a></span>
-                    &nbsp; | &nbsp;
-                    <span class="post-date">
+  {% get_hit_count_js_variables for post as hitcount %}
+  {% get_hit_count for post as total_hits %}
+  <div id="body" class="row pt-3" style="max-width:1200px; margin: 0 auto">
+    <div class="col-md-3  col-sm-12 order-md-2 content">
+      <div id="content">
+        <b>{{ post.title }}</b>
+        {{ post.toc|safe }}
+      </div>
+    </div>
+    <div class="col-md-9 col-sm-12 order-md-1">
+      {#    header#}
+      {% get_top_level_categories as categories %}
+
+      <header>
+        <h1>{{ post.title }}</h1>
+        <div class="post-meta">
+          <span class="post-category"><a href="{% url 'blog:category' post.category.id %}">{{ post.category.name }}</a></span>
+          &nbsp; | &nbsp;
+          <span class="post-date">
                         <time class="entry-date" datetime="{{ post.created_time }}">
                             {{ post.created_date_display }}
                         </time>
                     </span>
-                    &nbsp; | &nbsp;
-                    <span class="views-count">{{ total_hits }} <i class="far fa-eye"></i></span>
-                </div>
-            </header>
-            <hr>
-            {#  article  #}
-            <div id="article">
-                {{ post.body|safe }}
-            </div>
-            <hr>
-
+          &nbsp; | &nbsp;
+          <span class="views-count">{{ total_hits }} <i class="far fa-eye"></i></span>
         </div>
+      </header>
+      <hr>
+      {#  article  #}
+      <div id="article">
+        {{ post.body|safe }}
+      </div>
+      <hr>
 
-<div id="vcomments" class="col-md-9 order-md-3"></div>
     </div>
-    <style>
+
+    <div id="vcomments" class="col-md-9 order-md-3"></div>
+  </div>
+  <style>
+
+    #article {
+      background-color: #f9f9f5;
+    {#    font-family: -apple-system, 'Roboto Slab', "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Microsoft Yahei";#}{#"Segoe UI Symbol";#} font-family: "Helvetica Neue", BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", "Helvetica", PingFang SC, PingFang TC, Hiragino Sans GB, STHeiti, Microsoft YaHei, Microsoft JhengHei, "WenQuanYi Micro Hei", sans-serif;
+
+      max-width: 100%;
+      overflow-x: hidden;
+      color: rgb(48, 65, 80);
+
+    }
+
+    .toc {
+      float: left;
+      overflow-y: auto;
+    }
 
 
-        .toc {
-            float: left;
-            overflow-y: auto;
-        }
 
-        pre {
-            padding: 5px;
-            border-radius: 10px;
-            display: block;
-            font-size: 13px;
-            line-height: 1.42857143;
-            color: #333;
-            word-break: break-all;
-            background-color: #f1f3f1;
-            -webkit-overflow-scrolling: touch;
-            max-height: 60vh;
-            overflow: auto;
-        }
+    pre {
+      padding: 5px;
+      border-radius: 10px;
+      display: block;
+      font-size: 13px;
+      line-height: 1.42857143;
+      color: #333;
+      word-break: break-all;
+      background-color: #f1f3f1;
+      -webkit-overflow-scrolling: touch;
+      max-height: 60vh;
+      overflow: auto;
+    }
 
-        .toc ul {
-            -webkit-padding-start: 20px;
-            list-style-type: none;
-        }
+    .toc ul {
+      -webkit-padding-start: 20px;
+    }
 
-        #body a, #body a:visited {
-            border-bottom: 1px rgb(48, 65, 80) dotted;
-        }
+    #body a, #body a:visited {
+      border-bottom: 1px rgb(48, 65, 80) dotted;
+    }
 
-        #body a:hover {
-            color: rgb(91, 160, 162);
-            border-bottom: 1px rgb(91, 160, 162) dotted;
-            text-decoration: none;
-        }
+    #body a:hover {
+      color: rgb(91, 160, 162);
+      border-bottom: 1px rgb(91, 160, 162) dotted;
+      text-decoration: none;
+    }
 
-        img {
-            max-width: 100%;
-        }
+    img {
+      max-width: 100%;
+      margin: 0 auto;
+          display: block;
+    }
 
-        #article {
-            padding: 20px 0 20px 0;
-        }
+    #article {
+      padding: 20px 0 20px 0;
+    }
 
-        .stickyTop {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: #eeeeea;
-            padding-top: 0;
-        }
+    .stickyTop {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: #eeeeea;
+      padding-top: 0;
+    }
 
-        pre::-webkit-scrollbar-track, .toc::-webkit-scrollbar-track {
-            -webkit-box-shadow: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
+    pre::-webkit-scrollbar-track, .toc::-webkit-scrollbar-track {
+      -webkit-box-shadow: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
 
-        }
+    }
 
-        pre::-webkit-scrollbar, .toc::-webkit-scrollbar {
-            width: 3px;
-            height: 8px;
+    pre::-webkit-scrollbar, .toc::-webkit-scrollbar {
+      width: 3px;
+      height: 8px;
 
-        }
+    }
 
-        pre::-webkit-scrollbar-thumb, .toc::-webkit-scrollbar-thumb {
-            border-radius: 20px;
-            -webkit-box-shadow: rgba(79, 79, 79, 0.3);
-            background-color: #b7b7b7;
-        }
+    pre::-webkit-scrollbar-thumb, .toc::-webkit-scrollbar-thumb {
+      border-radius: 20px;
+      -webkit-box-shadow: rgba(79, 79, 79, 0.3);
+      background-color: #b7b7b7;
+    }
 
-        .current {
-            background-color: rgba(197, 197, 197, 0.2);
-            color: black;
-            text-shadow: 1px 0px 0px black;
-        }
+    .content {
+      font-size: 1em;
 
-        @media only screen and (min-width: 768px) {
-            .content {
-                position: sticky;
-                top: 1px;
-                max-height: 20px;
-            }
-        }
+    }
+    .current {
+      background-color: rgba(197, 197, 197, 0.2);
+      color: black;
+      text-shadow: 1px 0px 0px black;
+    }
 
-    </style>
-    {% csrf_token %}
-    <script>
-        $(document).ready(function () {
-            $(window).scroll(function () {
-                let scrollTop = $(window).scrollTop();
-                let headers = $("#article :header");
-                let allDown = true;
-                headers.each(function (index, header) {
-                    let headerTop = $(this).offset().top;
+    code {
+      font-weight: bold;
+      background-color: rgba(197, 197, 197, 0.2);
+      border-radius: 1px;
+      padding: 0 1px 0 1px;
+    }
 
-                    if (headerTop > scrollTop) {
-                        let header = $(headers[index - 1]);
+    @media only screen and (min-width: 768px) {
+      .content {
+        position: sticky;
+        top: 1px;
+        max-height: 20px;
+      }
+    }
 
-                        let id = header.attr('id');
-                        $('li a').removeClass('current');
-                        let toc = $('a[href$="' + id + '"]');
-                        toc.addClass("current");
-                        allDown = false;
-                        return false;
+    h2 {
+      padding: 10px 0 10px 0;
+      border-bottom: 2px rgba(197, 197, 197, 0.2) solid;
+    }
 
-                    }
-                })
-                if (allDown) {
-                    headers.removeClass("stickyTop");
-                }
-            });
-        });
-        (function ($) {
-
-            $.postCSRF = function (url, data, callback, type) {
-
-                function csrfSafeMethod(method) {
-                    // these HTTP methods do not require CSRF protection
-                    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-                }
-
-
-                var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-
-                // shift arguments if data argument was omitted
-                if ($.isFunction(data)) {
-                    type = type || callback;
-                    callback = data;
-                    data = undefined;
-                }
-
-                return $.ajax(jQuery.extend({
-                    url: url,
-                    type: "POST",
-                    dataType: type,
-                    data: data,
-                    success: callback,
-                    beforeSend: function (xhr, settings) {
-                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                        }
-                    }
-                }, jQuery.isPlainObject(url) && url));
-            };
-
-        }(jQuery));
-
-        $(document).ready(function ($) {
-            $.postCSRF("{{ hitcount.ajax_url }}", {hitcountPK: "{{ hitcount.pk }}"})
-        });
-
-        new Valine({
-            el: '#vcomments',
-            appId: 'xF18lrCyCtn6nclXIr0toQIO-gzGzoHsz',
-            appKey: 'ekKaUG1eX8Aae885vwsUw1rA',
-            placeholder: "Be the first one to comment",
-            path: '{% url "blog:detail" post.pk %}',
-            lang: "en",
-            avatar:'retro'
+  </style>
+  {% csrf_token %}
+  <script>
+    $(document).ready(function () {
+      $(window).scroll(function () {
+        let scrollTop = $(window).scrollTop();
+        let headers = $("#article :header");
+        headers.each(function () {
+          let headerTop = $(this).offset().top + 1;
+          let hedaerDown = headerTop + $(this).outerHeight(true);
+          if (hedaerDown > scrollTop) {
+            let text = $(this).text();
+            $('li a').removeClass('current');
+            let toc = $('a').filter(
+              function () {
+                return $(this).text() === text;
+              });
+            toc.addClass("current");
+            return false;
+          }
         })
+      });
+    });
+    (function ($) {
+      $.postCSRF = function (url, data, callback, type) {
+
+        function csrfSafeMethod(method) {
+          // these HTTP methods do not require CSRF protection
+          return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
 
 
-    </script>
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
+        // shift arguments if data argument was omitted
+        if ($.isFunction(data)) {
+          type = type || callback;
+          callback = data;
+          data = undefined;
+        }
+
+        return $.ajax(jQuery.extend({
+          url: url,
+          type: "POST",
+          dataType: type,
+          data: data,
+          success: callback,
+          beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+          }
+        }, jQuery.isPlainObject(url) && url));
+      };
+
+    }(jQuery));
+
+    $(document).ready(function ($) {
+      $.postCSRF("{{ hitcount.ajax_url }}", {hitcountPK: "{{ hitcount.pk }}"})
+    });
+
+    new Valine({
+      el: '#vcomments',
+      appId: 'xF18lrCyCtn6nclXIr0toQIO-gzGzoHsz',
+      appKey: 'ekKaUG1eX8Aae885vwsUw1rA',
+      placeholder: "Be the first one to comment",
+      path: '{% url "blog:detail" post.pk %}',
+      lang: "en",
+      avatar: 'retro'
+    })
+
+  </script>
 {% endblock %}
