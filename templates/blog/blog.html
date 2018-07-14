@@ -4,180 +4,178 @@
 {% load hitcount_tags %}
 
 {% block title_block %}
-    Blog
+  Blog
 {% endblock %}
 
 {% block body_block %}
-    <div class="row body" style="max-width:1200px; margin: 0 auto; padding:5px;">
+  <div class="row body" style="max-width:1200px; margin: 0 auto; padding:5px;">
 
-        <div id="article" class="col-md-9 p-0">
-            {% for post in post_list %}
-                <div id="post">
-                    <h2 class="display-5 text-center">
-                        <a href="{% url 'blog:detail' post.pk %}">{{ post.title }} </a>
-                    </h2>
+    <div id="article" class="col-md-9 p-0">
+      {% for post in post_list %}
+        <div id="post">
+          <h2 class="display-5 text-center">
+            <a href="{% url 'blog:detail' post.slug %}">{{ post.title }} </a>
+          </h2>
 
-                    <div style="text-align: center;">
+          <div style="text-align: center;">
                     <span>
                         <time class="entry-date" datetime="{{ post.created_time }}">
                             {{ post.created_date_display }}
                         </time>
                     </span>
-                        &nbsp; | &nbsp;
-                        <span class="">
+            &nbsp; | &nbsp;
+            <span class="">
                             <a href="{% url 'blog:category' post.category.slug %}">{{ post.category.name }} </a>
                     </span>
-                        &nbsp; | &nbsp;
-                        {% get_hit_count for post as total_hits %}
-                        <span class="">
+            &nbsp; | &nbsp;
+            {% get_hit_count for post as total_hits %}
+            <span class="">
                             {{ total_hits }}
                             <i class="far fa-eye"></i>
                         </span>
-                    </div>
-                    <p> &nbsp;&nbsp;&nbsp;&nbsp;{{ post.excerpt }}...</p>
-                </div>
-            {% empty %}
-                <div class="no-post">No Post now.</div>
+          </div>
+          <p> &nbsp;&nbsp;&nbsp;&nbsp;{{ post.excerpt }}...</p>
+        </div>
+      {% empty %}
+        <div class="no-post">No Post now.</div>
+      {% endfor %}
+
+      <div id="pagination" class="text-center">
+        <div class="pagination">
+          {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo;</a>
+          {% else %}
+            <a class="disabled">&laquo;</a>
+          {% endif %}
+
+          {% for left_page in left %}
+            <a href="?page={{ left_page }}">{{ left_page }}</a>
+          {% endfor %}
+
+          <a class="active" href="#">{{ page_obj.number }}</a>
+
+          {% if right %}
+            {% for right_page in right %}
+              <a href="?page={{ right_page }}">{{ right_page }}</a>
             {% endfor %}
+          {% endif %}
 
-            <div id="pagination" class="text-center">
-                <div class="pagination">
-                    {% if page_obj.has_previous %}
-                        <a href="?page=1">&laquo;</a>
-                    {% else %}
-                        <a class="disabled">&laquo;</a>
-                    {% endif %}
+          {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.paginator.num_pages }}">
+              {% if page_obj.paginator.num_pages > 10 %}
+                {{ page_obj.paginator.num_pages }}
+              {% endif %}
+              &raquo;</a>
+          {% else %}
+            <a>&raquo;</a>
+          {% endif %}
 
-                    {% for left_page in left %}
-                        <a href="?page={{ left_page }}">{{ left_page }}</a>
-                    {% endfor %}
-
-                    <a class="active" href="#">{{ page_obj.number }}</a>
-
-                    {% if right %}
-                        {% for right_page in right %}
-                            <a href="?page={{ right_page }}">{{ right_page }}</a>
-                        {% endfor %}
-                    {% endif %}
-
-                    {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.paginator.num_pages }}">
-                            {% if page_obj.paginator.num_pages > 10 %}
-                                {{ page_obj.paginator.num_pages }}
-                            {% endif %}
-                            &raquo;</a>
-                    {% else %}
-                        <a>&raquo;</a>
-                    {% endif %}
-
-                </div>
-            </div>
         </div>
-        <div id="sidebar" class="col-md-3 p-0 pl-md-1">
-            <div id="resent-post">
-                <h4 class="widget-title">Resent Post</h4>
-                {% get_recent_posts as recent_post_list %}
-
-                {% for post in recent_post_list %}
-                    <div>
-                         &nbsp; &nbsp; > <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-                    </div>
-                {% empty %}
-                    No post now.
-                {% endfor %}
-
-            </div>
-
-            <div id="view-rank">
-
-                <h4 class="widget-title">Most Viewed</h4>
-                {% get_view_rank as view_rank_list %}
-                {% for post in view_rank_list %}
-                    <div>
-                         &nbsp; &nbsp;> <a href="{{ post.get_absolute_url }}">
-                        {{ post.title }}
-
-                    </a>
-                    </div>
-                {% empty %}
-                    No post now.
-                {% endfor %}
-            </div>
-            <div id="archive">
-                <h4 class="widget-title">Archive</h4>
-                {% archives as date_list %}
-                <ul>
-                    {% for year, month, count in date_list %}
-                        <li>
-                            <a href="{% url 'blog:archive' year month %}">
-                                {{ year }}-{{ month }} ( {{ count }} )
-                            </a>
-                        </li>
-                    {% empty %}
-                        No post now.
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
+      </div>
     </div>
-    <style>
+    <div id="sidebar" class="col-md-3 p-0 pl-md-1">
+      <div id="resent-post">
+        <h4 class="widget-title">Resent Post</h4>
+        {% get_recent_posts as recent_post_list %}
+
+        {% for post in recent_post_list %}
+          <div>
+            &nbsp; &nbsp; > <a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a>
+          </div>
+        {% empty %}
+          No post now.
+        {% endfor %}
+
+      </div>
+
+      <div id="view-rank">
+
+        <h4 class="widget-title">Most Viewed</h4>
+        {% get_view_rank as view_rank_list %}
+        {% for post in view_rank_list %}
+          <div>
+            &nbsp; &nbsp;> <a href="{% url 'blog:detail' post.slug %}">
+            {{ post.title }}
+          </a>
+          </div>
+        {% empty %}
+          No post now.
+        {% endfor %}
+      </div>
+      <div id="archive">
+        <h4 class="widget-title">Archive</h4>
+        {% archives as date_list %}
+        <ul>
+          {% for year, month, count in date_list %}
+            <li>
+              <a href="{% url 'blog:archive' year month %}">
+                {{ year }}-{{ month }} ( {{ count }} )
+              </a>
+            </li>
+          {% empty %}
+            No post now.
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <style>
 
 
-        .body a, .body a:visited {
-            border-bottom: 1px rgb(48, 65, 80) dotted;
-        }
+    .body a, .body a:visited {
+      border-bottom: 1px rgb(48, 65, 80) dotted;
+    }
 
-        .body a:hover {
-            color: rgb(91, 160, 162);
-            border-bottom: 1px rgb(91, 160, 162) dotted;
-            text-decoration: none;
-        }
+    .body a:hover {
+      color: rgb(91, 160, 162);
+      border-bottom: 1px rgb(91, 160, 162) dotted;
+      text-decoration: none;
+    }
 
-        .body h1, h2, h3, h4, h5, h6 {
-            padding-top: 0.5em;
-            color: rgb(48, 65, 80);
-            font-family: -apple-system,'Roboto Slab', Microsoft Yahei, serif
-        }
+    .body h1, h2, h3, h4, h5, h6 {
+      padding-top: 0.5em;
+      color: rgb(48, 65, 80);
+      font-family: -apple-system, 'Roboto Slab', Microsoft Yahei, serif
+    }
 
+    #view-rank, #archive, #post, #resent-post {
+      background-color: rgba(197, 197, 197, 0.15);
+      border-radius: 10px;
+    }
 
-        #view-rank, #archive, #post, #resent-post {
-            background-color: rgba(197, 197, 197, 0.15);
-            border-radius: 10px;
-        }
+    i {
+      color: #878f95;
+    }
 
-        i {
-            color: #878f95;
-        }
+    #article p {
+      padding: 10px;
+    }
 
-        #article p {
-            padding:10px;
-        }
+    nav, .pagination {
+      justify-content: center;
+    }
 
-        nav, .pagination {
-            justify-content: center;
-        }
+    .pagination {
+      display: inline-block;
+    }
 
-        .pagination {
-            display: inline-block;
-        }
+    #pagination a {
+      float: left;
+      padding: 8px 16px;
+      text-decoration: none;
+      border-bottom: none;
+    }
 
-        #pagination a {
-            float: left;
-            padding: 8px 16px;
-            text-decoration: none;
-            border-bottom: none;
-        }
+    #pagination a.active {
+      background-color: rgba(48, 65, 80, 0.5);
+      color: white;
+      text-decoration: none;
+    }
 
-        #pagination a.active {
-            background-color: rgba(48, 65, 80, 0.5);
-            color: white;
-            text-decoration: none;
-        }
+    #pagination a:hover:not(.active) {
+      background-color: #ddd;
+      text-decoration: none;
+    }
 
-        #pagination a:hover:not(.active) {
-            background-color: #ddd;
-            text-decoration: none;
-        }
-
-    </style>
+  </style>
 {% endblock %}

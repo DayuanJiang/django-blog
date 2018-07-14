@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.utils.html import strip_tags
 from hitcount.models import HitCount, HitCountMixin
 from django.contrib.contenttypes.fields import GenericRelation
-
+from uuslug import slugify
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
@@ -33,6 +33,7 @@ class Post(models.Model):
     #    category = TreeForeignKey("Category", default="other", on_delete=models.SET_DEFAULT)
     category = models.ForeignKey("categories.Category", on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag, blank=True)
+    slug = models.SlugField(blank=True)
     hit_count_generic = GenericRelation(
         HitCount, object_id_field='object_pk',
         related_query_name='hit_count_generic_relation')
@@ -40,6 +41,7 @@ class Post(models.Model):
     # https://stackoverflow.com/questions/38388423/what-does-on-delete-do-on-django-models
     def __str__(self):
         return self.title
+
 
     def get_absolute_url(self):
         return reverse("blog:detail", kwargs={"pk": self.pk})
@@ -59,4 +61,5 @@ class Post(models.Model):
             'markdown.extensions.codehilite',
         ])
         self.excerpt = strip_tags(md.convert(self.body))[:199]
+        self.slug = slugify(self.title)
         super(Post, self).save(*args, **kwargs)
