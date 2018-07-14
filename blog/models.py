@@ -33,7 +33,7 @@ class Post(models.Model):
     #    category = TreeForeignKey("Category", default="other", on_delete=models.SET_DEFAULT)
     category = models.ForeignKey("categories.Category", on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag, blank=True)
-    slug = models.SlugField(blank=True)
+    # slug = models.SlugField(blank=True)
     hit_count_generic = GenericRelation(
         HitCount, object_id_field='object_pk',
         related_query_name='hit_count_generic_relation')
