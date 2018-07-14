@@ -16,6 +16,11 @@
 
 
 
+
+
+
+
+
   </script>
   <link href="{% static 'blog/css/highlights/perldoc.css' %}" rel="stylesheet">
 
@@ -29,31 +34,30 @@
   {% get_hit_count_js_variables for post as hitcount %}
   {% get_hit_count for post as total_hits %}
   <div id="body" class="row pt-3" style="max-width:1200px; margin: 0 auto">
-    <div class="col-md-3  col-sm-12 order-md-2 content">
-      <div id="content">
-        <b>{{ post.title }}</b>
-        {{ post.toc|safe }}
-      </div>
-    </div>
-    <div class="col-md-9 col-sm-12 order-md-1">
-      {#    header#}
-      {% get_top_level_categories as categories %}
-
-      <header>
-        <h1>{{ post.title }}</h1>
-        <div class="post-meta">
+    {#    header#}
+    <header class="col-md-9">
+      <h1>{{ post.title }}</h1>
+      <div class="post-meta">
           <span class="post-category"><a
             href="{% url 'blog:category' post.category.slug %}">{{ post.category.name }}</a></span>
-          &nbsp; | &nbsp;
-          <span class="post-date">
+        &nbsp; | &nbsp;
+        <span class="post-date">
                         <time class="entry-date" datetime="{{ post.created_time }}">
                             {{ post.created_date_display }}
                         </time>
                     </span>
-          &nbsp; | &nbsp;
-          <span class="views-count">{{ total_hits }} <i class="far fa-eye"></i></span>
-        </div>
-      </header>
+        &nbsp; | &nbsp;
+        <span class="views-count">{{ total_hits }} <i class="far fa-eye"></i></span>
+      </div>
+    </header>
+    <div class="col-md-3  col-sm-12 order-md-2 content pt-3">
+      <div id="content">
+        <p id="content-title">{{ post.title }}</p>
+        {{ post.toc|safe }}
+      </div>
+    </div>
+    <div class="col-md-9 col-sm-12 order-md-1">
+
       <hr>
       {#  article  #}
       <div id="article">
@@ -62,18 +66,18 @@
       <hr>
 
     </div>
-
-    <div id="vcomments" class="col-md-9 order-md-3"></div>
+    <div id="comment" class="col-md-9 order-md-3">
+      <div id="vcomments" class="col-12 "></div>
+    </div>
   </div>
   <style>
 
     #article {
       background-color: #f9f9f5;
-    {#    font-family: -apple-system, 'Roboto Slab', "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Microsoft Yahei";#}{#"Segoe UI Symbol";#} font-family: "Helvetica Neue", BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", "Helvetica", PingFang SC, PingFang TC, Hiragino Sans GB, STHeiti, Microsoft YaHei, Microsoft JhengHei, "WenQuanYi Micro Hei", sans-serif;
-
       max-width: 100%;
       overflow-x: hidden;
       color: rgb(48, 65, 80);
+      font-family: "Helvetica Neue", Roboto,BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", "Helvetica", PingFang SC, PingFang TC, Hiragino Sans GB, STHeiti, Microsoft YaHei, Microsoft JhengHei, "WenQuanYi Micro Hei", sans-serif;
 
     }
 
@@ -115,10 +119,6 @@
       max-width: 100%;
       margin: 25px auto;
       display: block;
-    }
-
-    #article {
-      padding: 20px 0 20px 0;
     }
 
     .stickyTop {
@@ -167,6 +167,7 @@
     }
 
     @media only screen and (min-width: 768px) {
+
       .content {
         position: sticky;
         top: 1px;
@@ -174,13 +175,23 @@
       }
     }
 
-    h1, h2, h3, h4 {
+    @media only screen and (max-width: 768px) {
+    #content-title {
+      display: none;
+    }
+    }
+
+    h2, h3, h4 {
       margin: 0.5em 0;
     }
 
-    h1, h2 {
+    h2 {
       padding: 0.5em 0;
       border-bottom: 2px rgba(197, 197, 197, 0.2) solid;
+    }
+
+    h1 {
+      font-size: 2em;
     }
 
     #body p {
@@ -188,28 +199,30 @@
     }
 
 
-
   </style>
   {% csrf_token %}
   <script>
     $(document).ready(function () {
       $(window).scroll(function () {
-        let scrollTop = $(window).scrollTop();
-        let headers = $("#article :header");
-        headers.each(function () {
-          let headerTop = $(this).offset().top + 1;
-          let hedaerDown = headerTop + $(this).outerHeight(true);
-          if (hedaerDown > scrollTop) {
-            let text = $(this).text();
-            $('li a').removeClass('current');
-            let toc = $('a').filter(
-              function () {
-                return $(this).text() === text;
-              });
-            toc.addClass("current");
-            return false;
-          }
-        })
+        if ($(window).width() > 768) {
+          console.log($(window).width())
+          let scrollTop = $(window).scrollTop();
+          let headers = $("#article :header");
+          headers.each(function () {
+            let headerTop = $(this).offset().top + 1;
+            let hedaerDown = headerTop + $(this).outerHeight(true);
+            if (hedaerDown > scrollTop) {
+              let text = $(this).text();
+              $('.toc a').removeClass('current');
+              let toc = $('.toc a').filter(
+                function () {
+                  return $(this).text() === text;
+                });
+              toc.addClass("current");
+              return false;
+            }
+          })
+        }
       });
     });
     (function ($) {
