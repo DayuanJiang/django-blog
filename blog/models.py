@@ -61,5 +61,6 @@ class Post(models.Model):
             'markdown.extensions.codehilite',
         ])
         self.excerpt = strip_tags(md.convert(self.body))[:199]
-        self.slug = slugify(self.title)
+        if not self.slug:
+          self.slug = slugify(self.title)
         super(Post, self).save(*args, **kwargs)
