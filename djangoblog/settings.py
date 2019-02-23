@@ -27,7 +27,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
   "www.jiang.jp",
   "192.168.10.206",
-  "jiang.jp"
+  "jiang.jp",
+  "127.0.0.1"
 ]
 
 # Application definition

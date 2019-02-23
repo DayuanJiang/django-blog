@@ -2,51 +2,7 @@ Django==2.0.5
 Markdown==2.6.11
 Pygments==2.2.0
 pytz==2018.4
-
-server {
-    charset utf-8;
-    listen 80;
-    server_name jiang.jp;
-
-    location /static {
-        alias /home/jdy_toh/sites/jiang.jp/django-blog/Static;
-    }
-
-    location / {
-        proxy_set_header Host $host;
-        proxy_pass http://unix:/tmp/djangoblog.socket;
-    }
-}
-
-/etc/nginx/sites-available/demo.zmrenwu.com
-/etc/nginx/sites-enabled/demo.zmrenwu.com
-
-
-sudo start gunicorn-www.jiang.jp
-gunicorn --bind unix:/tmp/jiang.jp.socket djangoblog.wsgi:application
-
-python manage.py makemigrations
-python manage.py migrate --run-syncdb
-python manage.py collectstatics
-+++++++++++++++++++++++++++++++
-start on net-device-up 
-stop on shutdown
-
-respawn 
-
-setuid root
-chdir /home/jdy_toh/sites/jiang.jp/django-blog
-
-exec ../env/bin/gunicorn --bind unix:/tmp/www.jiang.jp.socket djangoblog.wsgi:application
-sudo ln -s /etc/nginx/sites-available/www.jiang.jp /etc/nginx/sites-enabled/www.jiang.jp
-sudo service nginx reload
-
-
-service nginx start
-
-cd /home/jdy_toh/sites/jiang.jp
-source blog-env/bin/activate
-cd django-blog
-git pull 
-python manage.py collectstatic
-gunicorn --bind unix:/tmp/jiang.jp.socket djangoblog.wsgi:application
+django-hitcount
+django-categories
+django-mptt
+django-uuslug
